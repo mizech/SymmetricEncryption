@@ -46,8 +46,8 @@ public class SymmetricEncryption
       
       return String.copyValueOf(crypted);
   }
-  public static String rot13(String input) {
-      return "";
+  public static String rot13(String input) { 
+      return caesar(input, 13);
   }
   
   public static String vigenereEncrypt(String input, String key)

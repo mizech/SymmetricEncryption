@@ -18,5 +18,10 @@ public class TestSymetricEncryption
         out.println(SymmetricEncryption.isStringValid("ABC DEF"));
         out.println(SymmetricEncryption.caesar("ABCXYZ", 1));
         out.println(SymmetricEncryption.caesar("ABCXYZ", 3));
+        
+        String tmp = SymmetricEncryption.rot13("ABCXYZ");
+        
+        out.println(tmp);
+        out.println(SymmetricEncryption.rot13(tmp));
     }
 }
