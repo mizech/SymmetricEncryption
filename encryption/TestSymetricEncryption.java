@@ -24,7 +24,11 @@ public class TestSymetricEncryption
         
         out.println(tmp);
         out.println(SymmetricEncryption.rot13(tmp));
+       
+        char demo = 'A';
+        out.println((char)demo + " " + (char)(demo + 32));
         
-        out.println(SymmetricEncryption.createValidKey("abc", "ONETWOTHREE".length()));
+        out.println("Vigenere");
+        out.println(SymmetricEncryption.vigenereEncrypt("GEHEIMNIS", "AKEY"));
     }
 }
