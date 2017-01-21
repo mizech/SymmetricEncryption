@@ -5,14 +5,9 @@
  */
 package encryption;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- *
- * @author michael
- */
 public class SymmetricEncryption
 {
     private static final int COUNT_CHARS_ALPHABET = 26;
@@ -48,7 +43,7 @@ public class SymmetricEncryption
                 posInAlphabet += COUNT_CHARS_ALPHABET;
             }
 
-            crypted[i] = (char)((posInAlphabet + A));
+            crypted[i] = (char)(posInAlphabet += A);
         }
 
         return String.copyValueOf(crypted);
@@ -59,21 +54,36 @@ public class SymmetricEncryption
         return caesar(input, 13);
     }
     
-    private static String createValidKey(String keyBase, int exclusiveLimit) {
+    private static String createValidKey(String keyBase, int exclusiveLimit) 
+    {
         String validKey = keyBase;
         
-        while (validKey.length() < exclusiveLimit) {
+        while (validKey.length() < exclusiveLimit) 
+        {
             validKey += keyBase;
         }
         
         return validKey.substring(0, exclusiveLimit);
     }
     
-    private static void validateInput(String input) {
+    private static void validateInput(String input) 
+    {
         if (!isStringValid(input)) 
         {
             throw new IllegalArgumentException("Invalid input string.");
         }
+    }
+    
+    private static String join(String[] strings) 
+    {
+        StringBuilder joinedElements = new StringBuilder();
+        
+        for (String currentString : strings) 
+        {
+            joinedElements.append(currentString);
+        }
+        
+        return joinedElements.toString();
     }
 
     public static String vigenereEncrypt(String input, String key)
@@ -82,19 +92,37 @@ public class SymmetricEncryption
         validateInput(key);
         
         key = createValidKey(key, input.length());
-        String[] ret = new String[input.length()];
+        String[] encryptedStrings = new String[input.length()];
         
-        for (int i = 0; i < input.length(); i++) {
+        for (int i = 0; i < input.length(); i++) 
+        {
             String currentInput = input.substring(i, i + 1);
-            
-            ret[i] = caesar(currentInput, key.charAt(i) - input.charAt(i));
+                                               
+            encryptedStrings[i] = caesar( currentInput,
+                                          (key.charAt(i) - A)
+                                        );
         }
               
-        return Arrays.toString(ret);
+        return join(encryptedStrings);
     }
 
     public static String vigenereDecrypt(String input, String key) 
     {
-        return "";
+        validateInput(input);
+        validateInput(key);
+        
+        key = createValidKey(key, input.length());
+        String[] encryptedStrings = new String[input.length()];
+        
+        for (int i = 0; i < input.length(); i++) 
+        {
+            String currentInput = input.substring(i, i + 1);
+                                               
+            encryptedStrings[i] = caesar( currentInput,
+                                          (key.charAt(i) - A) * -1
+                                        );
+        }
+              
+        return join(encryptedStrings);
     }
 }

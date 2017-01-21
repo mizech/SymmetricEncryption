@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package encryption;
+package test;
 
+import encryption.SymmetricEncryption;
 import static java.lang.System.*;
-/**
- *
- * @author michael
- */
+
 public class TestSymetricEncryption
 {
     public static void main(String[] args) 
@@ -26,9 +24,10 @@ public class TestSymetricEncryption
         out.println(SymmetricEncryption.rot13(tmp));
        
         char demo = 'A';
-        out.println((char)demo + " " + (char)(demo + 32));
+        out.println(demo += 32);
         
         out.println("Vigenere");
-        out.println(SymmetricEncryption.vigenereEncrypt("GEHEIMNIS", "AKEY"));
+        out.println(SymmetricEncryption.vigenereEncrypt("HALLO", "TELEFON"));
+        out.println(SymmetricEncryption.vigenereDecrypt("AEWPT", "TELEFON"));
     }
 }
