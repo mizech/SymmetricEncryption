@@ -85,13 +85,9 @@ public class SymmetricEncryption
         
         return joinedElements.toString();
     }
-
-    public static String vigenereEncrypt(String input, String key)
-    {
-        validateInput(input);
-        validateInput(key);
+    
+    private static String createVigenereString(String input, String key, int decrypt) {
         
-        key = createValidKey(key, input.length());
         String[] encryptedStrings = new String[input.length()];
         
         for (int i = 0; i < input.length(); i++) 
@@ -99,11 +95,21 @@ public class SymmetricEncryption
             String currentInput = input.substring(i, i + 1);
                                                
             encryptedStrings[i] = caesar( currentInput,
-                                          (key.charAt(i) - A)
+                                          (key.charAt(i) - A) * decrypt
                                         );
         }
               
         return join(encryptedStrings);
+    }
+
+    public static String vigenereEncrypt(String input, String key)
+    {
+        validateInput(input);
+        validateInput(key);
+        
+        key = createValidKey(key, input.length());
+          
+        return createVigenereString(input, key, 1);
     }
 
     public static String vigenereDecrypt(String input, String key) 
@@ -112,17 +118,7 @@ public class SymmetricEncryption
         validateInput(key);
         
         key = createValidKey(key, input.length());
-        String[] encryptedStrings = new String[input.length()];
-        
-        for (int i = 0; i < input.length(); i++) 
-        {
-            String currentInput = input.substring(i, i + 1);
-                                               
-            encryptedStrings[i] = caesar( currentInput,
-                                          (key.charAt(i) - A) * -1
-                                        );
-        }
-              
-        return join(encryptedStrings);
+         
+        return createVigenereString(input, key, -1);
     }
 }
