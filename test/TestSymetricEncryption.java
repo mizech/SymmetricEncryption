@@ -12,22 +12,38 @@ public class TestSymetricEncryption
 {
     public static void main(String[] args) 
     {
-        out.println(SymmetricEncryption.isStringValid("ABCDEF"));
-        out.println(SymmetricEncryption.isStringValid("ABC1DEF"));
-        out.println(SymmetricEncryption.isStringValid("ABC DEF"));
+        out.println("Result isValid: "
+                + SymmetricEncryption.isStringValid("ABCDEF"));
+        out.println("Result isValid: " 
+                + SymmetricEncryption.isStringValid("ABC1DEF") + "\n");
+        
+        out.println("\nCaesar");
         out.println(SymmetricEncryption.caesar("ABCXYZ", 1));
         out.println(SymmetricEncryption.caesar("HALLO", -3));
         
         String tmp = SymmetricEncryption.rot13("ABCXYZ");
         
-        out.println(tmp);
-        out.println(SymmetricEncryption.rot13(tmp));
-       
-        char demo = 'A';
-        out.println(demo += 32);
+        out.println("\nROT13: " + tmp);
+        out.println("ROT13: " + SymmetricEncryption.rot13(tmp));
         
-        out.println("Vigenere");
+        out.println("\nVigenere");
         out.println(SymmetricEncryption.vigenereEncrypt("HALLO", "TELEFON"));
         out.println(SymmetricEncryption.vigenereDecrypt("AEWPT", "TELEFON"));
+        
+        /*  ---------- RESULTS -------------------------------------------
+            Result isValid: true
+            Result isValid: false
+
+            Caesar
+            BCDYZA
+            EXIIL
+
+            ROT13: NOPKLM
+            ROT13: ABCXYZ
+
+            Vigenere
+            AEWPT
+            HALLO
+        */
     }
 }

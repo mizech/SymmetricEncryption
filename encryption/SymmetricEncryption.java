@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package encryption;
 
 import java.util.regex.Matcher;
@@ -13,46 +9,7 @@ public class SymmetricEncryption
     private static final int COUNT_CHARS_ALPHABET = 26;
     private static final char A = 'A';
     
-    public static boolean isStringValid(String input)
-    {
-        Pattern p = Pattern.compile("[^A-Z]+");
-        Matcher m = p.matcher(input);
-
-        if (m.find()) 
-        {
-            return false;
-        } 
-      
-        return true;
-    }
-
-    public static String caesar(String input, int shift)
-    {
-        validateInput(input);
-
-        char[] inputChars = input.toCharArray();
-        char[] crypted = new char[inputChars.length];
-
-        for (int i = 0; i < inputChars.length; i++) 
-        {
-            int posInAlphabet = (inputChars[i] - A + shift)
-                    % COUNT_CHARS_ALPHABET;
-
-            while (posInAlphabet < 0) 
-            {
-                posInAlphabet += COUNT_CHARS_ALPHABET;
-            }
-
-            crypted[i] = (char)(posInAlphabet += A);
-        }
-
-        return String.copyValueOf(crypted);
-    }
-    
-    public static String rot13(String input) 
-    { 
-        return caesar(input, 13);
-    }
+    // ---------- HELPER METHODS -- Start ----------------------------------
     
     private static String createValidKey(String keyBase, int exclusiveLimit) 
     {
@@ -86,7 +43,10 @@ public class SymmetricEncryption
         return joinedElements.toString();
     }
     
-    private static String createVigenereString(String input, String key, int decrypt) {
+    private static String createVigenereString( 
+            String input,
+            String key,
+            int decrypt ) {
         
         String[] encryptedStrings = new String[input.length()];
         
@@ -101,7 +61,113 @@ public class SymmetricEncryption
               
         return join(encryptedStrings);
     }
+    // ---------- HELPER METHODS -- End ----------------------------------
+    
+    // ---------- REQUIRED METHODS ---------------------------------------
+    // Names, parameter, return values etc. are prescribed by the exercise
+    //  description that way ...
+    
+    /**
+     * Write a public, static method which has a boolean
+     *  value as return. 
+     *  The method has a return value of false if at least
+     *  one char IS NOT between A and Z.
+     *  In all other cases it return true.
+     * 
+     * @param input
+     * @return 
+     */
+    public static boolean isStringValid(String input)
+    {
+        Pattern p = Pattern.compile("[^A-Z]+");
+        Matcher m = p.matcher(input);
 
+        if (m.find()) 
+        {
+            return false;
+        } 
+      
+        return true;
+    }
+    
+    /**
+     * Shifts all chars of an text m for n positions n
+     *  in the alphabet.
+     *  In case the encrypted char is beyond the last
+     *  char of the alphabet it is started from the 
+     *  beginning again.
+     * 
+     *  c = m + n mod 26
+     * 
+     * Implement a validation check. 
+     * 
+     * @param input Text to encrypt.
+     * @param shift Places to shift within the alphabet.
+     * @return 
+     */
+    public static String caesar(String input, int shift)
+    {
+        validateInput(input);
+
+        char[] inputChars = input.toCharArray();
+        char[] crypted = new char[inputChars.length];
+
+        for (int i = 0; i < inputChars.length; i++) 
+        {
+            int posInAlphabet = (inputChars[i] - A + shift)
+                    % COUNT_CHARS_ALPHABET;
+
+            while (posInAlphabet < 0) 
+            {
+                posInAlphabet += COUNT_CHARS_ALPHABET;
+            }
+
+            crypted[i] = (char)(posInAlphabet += A);
+        }
+
+        return String.copyValueOf(crypted);
+    }
+    
+    /**
+     * ROT13 is a Caesar chiffre with the shift set fixed
+     *  to 13 chars. Because of that one single method can
+     *  be used for encryption AND decryption.
+     * 
+     *  c = rot13(m)
+     *  m = rot13(c)
+     * 
+     * @param input
+     * @return 
+     */
+    public static String rot13(String input) 
+    { 
+        return caesar(input, 13);
+    }
+    
+    /**
+     * Difference Vigenere to Caesar chipher: A keyword is needed
+     *  for the encryption.
+     * 
+     *  In case the text to encrypt is longer as the keyword: Then
+     *   the keyword is repeated until it has the length of the text.
+     *  
+     *  Each char m is shifted for k positions within the 
+     *   alphabet.
+     *   
+     *   c = m + k mod 26
+     * 
+     *   EXAMPLE:
+     *   m = GEHEIMNIS, k = AKEY
+     *   m = GEHEIMNIS
+     *   k = AKEYAKEYA
+     *   c = GOLCIWRGS 
+     *
+     * Implement a validation check. 
+     * 
+     * @param input
+     * @param key
+     * @return 
+     */
     public static String vigenereEncrypt(String input, String key)
     {
         validateInput(input);
